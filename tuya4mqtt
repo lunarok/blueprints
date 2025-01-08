@@ -1,0 +1,202 @@
+blueprint:
+  domain: automation
+  name: Moes/Tuya 4-Button Scene Switch by Dameq
+  description: Moes/Tuya 4-Button Scene via Zigbee (MQTT trigger version).
+  input:
+    input_device:
+      name: Input Device
+      description: Select the Moes/Tuya 4-Button Scene Switch device
+      selector:
+        device:
+          integration: mqtt
+          manufacturer: Tuya
+          multiple: false
+    button_one_short_press:
+      name: Single Press - Button 1
+      description: Action to run on button 1 (top-left) single press
+      default: []
+      selector:
+        action: {}
+    button_one_double_press:
+      name: Double Press - Button 1
+      description: Action to run on button 1 (top-left) double press
+      default: []
+      selector:
+        action: {}
+    button_one_long_press:
+      name: Long Press - Button 1
+      description: Action to run on button 1 (top-left) long press
+      default: []
+      selector:
+        action: {}
+    button_two_short_press:
+      name: Single Press - Button 2
+      description: Action to run on button 2 (top-right) single press
+      default: []
+      selector:
+        action: {}
+    button_two_double_press:
+      name: Double Press - Button 2
+      description: Action to run on button 2 (top-right) double press
+      default: []
+      selector:
+        action: {}
+    button_two_long_press:
+      name: Long Press - Button 2
+      description: Action to run on button 2 (top-right) long press
+      default: []
+      selector:
+        action: {}
+    button_three_short_press:
+      name: Single Press - Button 3
+      description: Action to run on button 3 (lower-left) single press
+      default: []
+      selector:
+        action: {}
+    button_three_double_press:
+      name: Double Press - Button 3
+      description: Action to run on button 3 (lower-left) double press
+      default: []
+      selector:
+        action: {}
+    button_three_long_press:
+      name: Long Press - Button 3
+      description: Action to run on button 3 (lower-left) long press
+      default: []
+      selector:
+        action: {}
+    button_four_short_press:
+      name: Single Press - Button 4
+      description: Action to run on button 4 (lower-right) single press
+      default: []
+      selector:
+        action: {}
+    button_four_double_press:
+      name: Double Press - Button 4
+      description: Action to run on button 4 (lower-right) double press
+      default: []
+      selector:
+        action: {}
+    button_four_long_press:
+      name: Long Press - Button 4
+      description: Action to run on button 4 (lower-right) long press
+      default: []
+      selector:
+        action: {}
+
+mode: parallel
+max_exceeded: silent
+trigger:
+  - id: button_one_short_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 1_single
+    trigger: device
+  - id: button_one_double_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 1_double
+    trigger: device
+  - id: button_one_long_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 1_hold
+    trigger: device
+  - id: button_two_short_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 2_single
+    trigger: device
+  - id: button_two_double_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 2_double
+    trigger: device
+  - id: button_two_long_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 2_hold
+    trigger: device
+  - id: button_three_short_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 3_single
+    trigger: device
+  - id: button_three_double_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 3_double
+    trigger: device
+  - id: button_three_long_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 3_hold
+    trigger: device
+  - id: button_four_short_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 4_single
+    trigger: device
+  - id: button_four_double_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 4_double
+    trigger: device
+  - id: button_four_long_event
+    device_id: !input input_device
+    domain: mqtt
+    type: action
+    subtype: 4_hold
+    trigger: device
+
+action:
+- variables:
+    command: "{{ trigger.id }}"
+- choose:
+  - conditions:
+    - "{{ command == 'button_one_short_event' }}"
+    sequence: !input "button_one_short_press"
+  - conditions:
+    - "{{ command == 'button_one_double_event' }}"
+    sequence: !input "button_one_double_press"
+  - conditions:
+    - "{{ command == 'button_one_long_event' }}"
+    sequence: !input "button_one_long_press"
+  - conditions:
+    - "{{ command == 'button_two_short_event' }}"
+    sequence: !input "button_two_short_press"
+  - conditions:
+    - "{{ command == 'button_two_double_event' }}"
+    sequence: !input "button_two_double_press"
+  - conditions:
+    - "{{ command == 'button_two_long_event' }}"
+    sequence: !input "button_two_long_press"
+  - conditions:
+    - "{{ command == 'button_three_short_event' }}"
+    sequence: !input "button_three_short_press"
+  - conditions:
+    - "{{ command == 'button_three_double_event' }}"
+    sequence: !input "button_three_double_press"
+  - conditions:
+    - "{{ command == 'button_three_long_event' }}"
+    sequence: !input "button_three_long_press"
+  - conditions:
+    - "{{ command == 'button_four_short_event' }}"
+    sequence: !input "button_four_short_press"
+  - conditions:
+    - "{{ command == 'button_four_double_event' }}"
+    sequence: !input "button_four_double_press"
+  - conditions:
+    - "{{ command == 'button_four_long_event' }}"
+    sequence: !input "button_four_long_press"
